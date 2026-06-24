@@ -6,15 +6,9 @@ from newspaper import Article
 from sumy.parsers.plaintext import PlaintextParser
 from sumy.nlp.tokenizers import Tokenizer
 from sumy.summarizers.lsa import LsaSummarizer
-from transformers import pipeline
 import spacy
 import os
 
-sentiment_pipeline=pipeline("sentiment-analysis")
-category_pipeline = pipeline(
-    "zero-shot-classification", 
-     model="typeform/distilbert-base-uncased-mnli"
-)
 nlp = spacy.load("en_core_web_sm")
 
 print("CATEGORY MODEL LOADED: typeform/distilbert-base-uncased-mnli")
@@ -75,24 +69,53 @@ def summarize_text(text, sentence_count=3):
 
 def analyze_sentiment(text):
 
-    result = sentiment_pipeline(text[:512])[0]
+    blob = TextBlob(text)
 
-    label = result["label"]
-    score = result["score"]
+    polarity = blob.sentiment.polarity
 
-    if label == "POSITIVE":
+    if polarity > 0:
         sentiment = "Positive"
-    else:
+    elif polarity < 0:
         sentiment = "Negative"
+    else:
+        sentiment = "Neutral"
 
-    return (sentiment," - ",score)
+    return {
+        "label": sentiment,
+        "score": round(polarity, 2)
+    }
     
 
 def classify_category(text):
 
-    result = category_pipeline(text, CATEGORIES)
+    text = text.lower()
 
-    return result["labels"][0]
+    if any(word in text for word in [
+        "election", "government", "minister",
+        "bjp", "congress", "parliament"
+    ]):
+        return "Politics"
+
+    elif any(word in text for word in [
+        "stock", "market", "economy",
+        "business", "startup"
+    ]):
+        return "Business"
+
+    elif any(word in text for word in [
+        "cricket", "football", "sports",
+        "olympics"
+    ]):
+        return "Sports"
+
+    elif any(word in text for word in [
+        "ai", "technology", "software",
+        "google", "microsoft"
+    ]):
+        return "Technology"
+
+    else:
+        return "General"
 
 def extract_entities(text):
 

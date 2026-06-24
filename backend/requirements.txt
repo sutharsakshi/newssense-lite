@@ -1,7 +1,5 @@
 Flask
 flask-cors
-transformers
-torch
 spacy
 sumy
 newspaper3k
