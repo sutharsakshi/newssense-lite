@@ -6,3 +6,4 @@ newspaper3k
 lxml[html_clean]
 scikit-learn
 numpy
+textblob
