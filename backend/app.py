@@ -1,5 +1,6 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
+from textblob import TextBlob
 import nltk
 from nltk.sentiment import SentimentIntensityAnalyzer
 from newspaper import Article
@@ -25,7 +26,11 @@ CATEGORIES = [
 ]
 
 app = Flask(__name__)
-CORS(app)
+CORS(
+    app,
+    resources={r"/*": {"origins": "*"}},
+    supports_credentials=False
+)
 
 nltk.download("vader_lexicon")
 
@@ -135,8 +140,10 @@ def extract_entities(text):
 # API ROUTE
 # -------------------------
 
-@app.route("/analyze", methods=["POST"])
+@app.route("/analyze", methods=["POST", "OPTIONS"])
 def analyze():
+    if request.method == "OPTIONS":
+        return jsonify({}), 200
     
     data = request.json or {}
     text = data.get("text", "")
