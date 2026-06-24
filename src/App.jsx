@@ -35,7 +35,7 @@ function App() {
           ? processUrl(input)
           : input;
 
-      const response = await fetch("https://newssense-lite-api.onrender.com", {
+      const response = await fetch("https://newssense-lite-api.onrender.com/analyze", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
