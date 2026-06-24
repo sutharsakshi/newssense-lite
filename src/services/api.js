@@ -1,23 +1,24 @@
-import { getSentiment } from "../utils/sentiment";
-import { extractKeywords } from "../utils/keywords";
-import { generateSummary } from "../utils/summary";
+export async function analyzeNews(input, mode = "text") {
 
-export async function analyzeNews(text) {
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      try {
-        const sentiment = getSentiment(text);
-        const keywords = extractKeywords(text);
-        const summary = generateSummary(text);
+  const body =
+    mode === "url"
+      ? { url: input }
+      : { text: input };
 
-        resolve({
-          sentiment,
-          keywords,
-          summary,
-        });
-      } catch (error) {
-        reject("Analysis failed");
-      }
-    }, 1200);
-  });
+  const response = await fetch(
+    "https://newssense-lite-api.onrender.com/analyze",
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(body),
+    }
+  );
+
+  if (!response.ok) {
+    throw new Error("Failed to fetch");
+  }
+
+  return await response.json();
 }
