@@ -87,7 +87,7 @@ function App() {
 
       <div className="footer">
         <a
-          href="https://digitalheroes.in"
+          href="https://digitalheroesco.com"
           target="_blank"
           rel="noopener noreferrer"
         >
