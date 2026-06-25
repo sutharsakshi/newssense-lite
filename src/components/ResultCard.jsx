@@ -24,7 +24,8 @@ export default function ResultCard({ result, loading }) {
 
       <div style={styles.section}>
         <h3>Sentiment</h3>
-        <p>{result.sentiment}</p>
+        <p>{result.sentiment.label}</p>
+        <p>Confidence: {result.sentiment.score}</p>
       </div>
 
       <div style={styles.section}>
