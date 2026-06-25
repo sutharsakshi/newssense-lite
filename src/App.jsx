@@ -53,6 +53,25 @@ function App() {
     }
   };
 
+  <a
+    href="https://digitalheroes.in"
+    target="_blank"
+    rel="noopener noreferrer"
+  >
+    <button
+      style={{
+        marginTop: "20px",
+        padding: "10px 18px",
+        borderRadius: "10px",
+        border: "none",
+        cursor: "pointer",
+        fontWeight: "bold"
+      }}
+    >
+      Made for DigitalHeroes
+    </button>
+  </a>
+
   return (
     <div className="app-container">
       <h1 className="app-title">NewsSense Lite 🧠</h1>
