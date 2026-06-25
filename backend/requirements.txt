@@ -7,3 +7,4 @@ lxml[html_clean]
 scikit-learn
 numpy
 textblob
+yake

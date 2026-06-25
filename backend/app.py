@@ -9,6 +9,7 @@ from sumy.nlp.tokenizers import Tokenizer
 from sumy.summarizers.lsa import LsaSummarizer
 import spacy
 import os
+import yake
 
 nltk.download("punkt")
 nltk.download("punkt_tab")
@@ -38,9 +39,19 @@ def extract_article_from_url(url):
     return article.text
 
 def extract_keywords(text):
-    words = text.lower().split()
-    filtered = [w for w in words if len(w) > 4]
-    return list(set(filtered))[:5]
+
+    kw_extractor = yake.KeywordExtractor(
+        lan="en",
+        n=2,
+        dedupLim=0.7,
+        top=5
+    )
+
+    keywords = kw_extractor.extract_keywords(text)
+
+    cleaned_keywords = [kw[0] for kw in keywords]
+
+    return cleaned_keywords
 
 def summarize_text(text, sentence_count=3):
 
