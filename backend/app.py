@@ -10,32 +10,21 @@ from sumy.summarizers.lsa import LsaSummarizer
 import spacy
 import os
 
+nltk.download("punkt")
+nltk.download("punkt_tab")
+nltk.download("vader_lexicon")
+
 nlp = spacy.load("en_core_web_sm")
 
-print("CATEGORY MODEL LOADED: typeform/distilbert-base-uncased-mnli")
-
-CATEGORIES = [
-    "Politics",
-    "Business",
-    "Technology",
-    "Sports",
-    "Health",
-    "Entertainment",
-    "Science",
-    "World News"
-]
-
 app = Flask(__name__)
+
 CORS(
     app,
     resources={r"/*": {"origins": "*"}},
     supports_credentials=False
 )
 
-nltk.download("vader_lexicon")
-
 sia = SentimentIntensityAnalyzer()
-
 
 # -------------------------
 # NLP FUNCTIONS
