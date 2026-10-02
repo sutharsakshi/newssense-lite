@@ -85,18 +85,6 @@ function App() {
         <ResultCard result={result} loading={loading} />
       </div>
 
-      <div className="footer">
-        <a
-          href="https://digitalheroesco.com"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <button className="dh-button">
-            Made for DigitalHeroes
-          </button>
-        </a>
-      </div>
-
     </div>
   );
 }
